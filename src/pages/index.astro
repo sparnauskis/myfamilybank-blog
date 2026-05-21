@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const featured = posts.filter(p => p.data.featured);
+const regular = posts.filter(p => !p.data.featured);
+---
+<Base title="Family Money Blog" description="Practical notes on pocket money, family budgeting and calm financial habits.">
+  <section class="hero">
+    <div class="container">
+      <h1>Family Money Blog</h1>
+      <p class="hero-sub">Calm money habits for families raising financially confident children.</p>
+    </div>
+  </section>
+  {featured.length > 0 && (
+    <section class="featured-posts">
+      <div class="container">
+        <h2 class="section-title">Featured</h2>
+        <div class="posts-grid featured">
+          {featured.map(post => (
+            <a href={'/blog/' + post.slug} class="post-card featured-card">
+              {post.data.cover_image && <img src={post.data.cover_image} alt={post.data.title} loading="lazy" />}
+              <div class="post-card-body">
+                {post.data.category && <span class="category-badge">{post.data.category}</span>}
+                <h2>{post.data.title}</h2>
+                <p>{post.data.description}</p>
+                <span class="post-date">{new Date(post.data.date).toLocaleDateString('en', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+  <section class="all-posts">
+    <div class="container">
+      {featured.length > 0 && <h2 class="section-title">All posts</h2>}
+      <div class="posts-grid">
+        {regular.map(post => (
+          <a href={'/blog/' + post.slug} class="post-card">
+            {post.data.cover_image && <img src={post.data.cover_image} alt={post.data.title} loading="lazy" />}
+            <div class="post-card-body">
+              {post.data.category && <span class="category-badge">{post.data.category}</span>}
+              <h3>{post.data.title}</h3>
+              <p>{post.data.description}</p>
+              <span class="post-date">{new Date(post.data.date).toLocaleDateString('en', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
