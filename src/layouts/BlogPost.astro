@@ -1,0 +1,38 @@
+---
+import Base from './Base.astro';
+const { title, description, date, author, cover_image, category, tags, cta_text, cta_url } = Astro.props;
+const formattedDate = new Date(date).toLocaleDateString('lt-LT', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+<Base title={title} description={description}>
+  <article class="post-article">
+    <div class="container">
+      <header class="post-header">
+        {category && <span class="category-badge">{category}</span>}
+        <h1>{title}</h1>
+        <p class="post-meta">
+          <span class="author">{author}</span>
+          <span class="separator">·</span>
+          <time datetime={date.toISOString()}>{formattedDate}</time>
+        </p>
+        {tags.length > 0 && (
+          <div class="tags">
+            {tags.map(tag => <span class="tag">#{tag}</span>)}
+          </div>
+        )}
+      </header>
+      {cover_image && (
+        <div class="cover-image">
+          <img src={cover_image} alt={title} loading="lazy" />
+        </div>
+      )}
+      <div class="post-content">
+        <slot />
+      </div>
+      {cta_text && cta_url && (
+        <div class="post-cta">
+          <a href={cta_url} class="cta-button">{cta_text} →</a>
+        </div>
+      )}
+    </div>
+  </article>
+</Base>
