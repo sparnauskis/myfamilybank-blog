@@ -1,7 +1,7 @@
 ---
 title: "How a family money habit can make decisions easier"
 description: "A small weekly routine can turn pocket money, saving and requests into calmer family decisions."
-date: 2026-05-21
+date: 2026-05-22
 author: "MyFamilyBank team"
 category: "Family habits"
 tags: ["pocket-money", "family-habits", "financial-literacy"]
